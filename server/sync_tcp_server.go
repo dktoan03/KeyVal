@@ -3,9 +3,9 @@ package server
 import (
 	"fmt"
 	"io"
-	"log"
 	"keyval/config"
 	"keyval/core"
+	"log"
 	"net"
 	"strconv"
 )
@@ -16,7 +16,6 @@ func readCommand(con net.Conn) (*core.MemKVCmd, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return core.ParseCmd(buf[:n])
 }
 

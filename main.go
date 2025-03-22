@@ -1,28 +1,20 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"log"
-	"net"
+	"keyval/config"
+	"keyval/server"
 )
 
-func main() {
-	ln, err := net.Listen("tcp", ":8081")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("MemKV server running on port 8081...")
-	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-		go handleConnection(conn)
-	}
+func init() {
+	flag.StringVar(&config.Host, "host", "0.0.0.0", "host")
+	flag.IntVar(&config.Port, "port", 8080, "port")
+	flag.Parse()
 }
 
-func handleConnection(conn net.Conn) {
-	defer conn.Close()
-	fmt.Fprintf(conn, "Welcome to MemKV!\n")
+func main() {
+	fmt.Println("starting memkv database ...")
+	// server.RunSyncTcpServer()
+	server.RunAsyncTCPServer()
 }
